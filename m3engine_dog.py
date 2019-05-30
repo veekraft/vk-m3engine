@@ -10,7 +10,7 @@ import json
 UserID = "Blah"
 
 app = Flask(__name__)
-dogapi_server = "127.0.0.1"
+dogapi_server = "HTTPS://127.0.0.1:5000"
 
 @app.route('/api/v1/dog/view',methods=['GET'])
 def view():
@@ -23,7 +23,7 @@ def view():
     apiuri = "/sd_read"
     parameters = {"sd_regid": regid}
     
-    #view_response = requests.get("https://" + dogapi_server + apiuri, params=parameters)
+    #view_response = requests.get(dogapi_server + apiuri, params=parameters)
     view_response = {'sd_regid': '1234', 'sd_name': 'fido', 'sd_regstatus': 'Registered', 'sd_teamstatus':'Approved'}
     fake_view_response_code = 200
 
@@ -44,7 +44,7 @@ def add():
 
     #print parameters
     
-    # add_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
+    # add_response = requests.post(dogapi_server + apiuri, params=parameters)
     fake_add_response_code = 200
     
     #if add_response.status_code == 200:
@@ -70,7 +70,7 @@ def delete():
 
     apiuri = "/sd_delete"
     
-    # delete_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
+    # delete_response = requests.post(dogapi_server + apiuri, params=parameters)
     fake_delete_response_code = 200
 
     #if delete_response.status_code == 200:
@@ -132,7 +132,7 @@ def update():
     
     apiuri = "/sd_update"
     
-    # update_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
+    # update_response = requests.post(dogapi_server + apiuri, params=parameters)
     fake_update_response_code = 200
     
     #if update_response.status_code == 200:

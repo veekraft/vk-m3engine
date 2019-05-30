@@ -24,10 +24,7 @@ def view():
     parameters = {"sd_regid": regid}
     
     #view_response = requests.get("https://" + dogapi_server + apiuri, params=parameters)
-
-    # Fake Return Dog Data
     view_response = {'sd_regid': '1234', 'sd_name': 'fido', 'sd_regstatus': 'Registered', 'sd_teamstatus':'Approved'}
-    # Fake Response
     fake_view_response_code = 200
 
     #if view_response.status_code == 200:
@@ -42,26 +39,12 @@ def view():
 
 @app.route('/api/v1/dog/add',methods=['POST'])
 def add():
-    #Request should be of the form:
-    # { sd_name: Dog Name
-    #   sd_regstatus : Registration Status
-    #   sd_expiredate : Expiry Date
-    #   sd_teamstatus : Team Status (Approved/Expired/Flagged)
-    #   sd_handlerid: Handler ID
-    #   sd_vaccstatus: Vaccination Status
-    #   sd_vaccepiredate: Vaccination Expiry Date
-    #   sd_pedigree: Breed
-    #   sd_trainername: Trainer Name
-    #   sd_trainerorg: Trainer Organisation
-    # } 
     parameters = request.form
-    
     apiuri = "/sd_create"
 
     #print parameters
     
     # add_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
-    # Fake Response
     fake_add_response_code = 200
     
     #if add_response.status_code == 200:
@@ -76,16 +59,17 @@ def add():
     
 @app.route('/api/v1/dog/delete',methods=['DELETE'])
 def delete():
-    #userid, regid needed to set inactive status
-    data = request.form
     global userid
     global regid
-
+    
+    data = request.form
+    
     userid = data['userid']
     regid = data['sd_regid']
     parameters = {'sd_regid':regid, 'sd_regstatus': 'False', 'sd_teamstatus': 'Expired'}
 
     apiuri = "/sd_delete"
+    
     # delete_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
     fake_delete_response_code = 200
 
@@ -101,26 +85,16 @@ def delete():
 
 @app.route('/api/v1/dog/update',methods=['PUT'])
 def update():
-    #Request items that can be updated:
-    #   sd_regstatus : Registration Status
-    #   sd_expiredate : Expiry Date
-    #   sd_teamstatus : Team Status (Approved/Expired/Flagged)
-    #   sd_handlerid: Handler ID
-    #   sd_vaccstatus: Vaccination Status
-    #   sd_vaccepiredate: Vaccination Expiry Date
-    #   sd_trainername: Trainer Name
-    #   sd_trainerorg: Trainer Organisation
-    data = request.form
-
     global userid
     global regid
+
+    data = request.form
 
     userid = data['userid']
     regid = data['sd_regid']
 
     parameters = {'sd_regid':regid}
 
-    # Allow update but also allow variable set to fail.
     try:
         parameters['sd_regstatus'] = data['sd_regstatus']
     except:
@@ -159,7 +133,6 @@ def update():
     apiuri = "/sd_update"
     
     # update_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
-    # Fake Response
     fake_update_response_code = 200
     
     #if update_response.status_code == 200:

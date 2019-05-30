@@ -28,6 +28,26 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'handlerid', response.data)
 
+
+    def test_document_searchbystatus(self):
+        response = self.app.get('/api/v1/document/searchbystatus', query_string=dict(
+			status='pending'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'pending', response.data)
+
+    def test_document_changestatus(self):
+        response = self.app.get('/api/v1/document/changestatus', query_string=dict(
+			status='pending', documentid='12'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'pending', response.data)
+
+    def test_document_delete(self):
+        parameters = {'documentid': '1234'}
+        response = self.app.delete('/api/v1/document/deletedocument', data=parameters)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'SUCCESS', response.data)
+
+
 # Method	Equivalent to
 # .assertEqual(a, b)	a == b
 # .assertTrue(x)	bool(x) is True

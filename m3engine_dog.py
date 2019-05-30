@@ -126,7 +126,7 @@ def update():
     try:
         parameters['sd_trainername'] = data['sd_trainername']
     except:
-        print "No change to Trainer Organisation"
+        print "No change to Trainer Name"
     try:
         parameters['sd_trainerorg'] = data['sd_trainerorg']
     except:

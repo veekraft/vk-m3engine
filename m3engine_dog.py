@@ -32,7 +32,7 @@ def view():
         response = view_response
         code = 200
     else:
-        response = {'Result: Error viewing Dog Entry'}
+        response = {'Result': 'Dog View: FAIL'}
         code = 400
 
     return jsonify(response), code
@@ -44,7 +44,7 @@ def add():
 
     #print parameters
     
-    # add_response = requests.post(dogapi_server + apiuri, params=parameters)
+    # add_response = requests.post(dogapi_server + apiuri, data=parameters)
     fake_add_response_code = 200
     
     #if add_response.status_code == 200:
@@ -70,7 +70,7 @@ def delete():
 
     apiuri = "/sd_delete"
     
-    # delete_response = requests.post(dogapi_server + apiuri, params=parameters)
+    # delete_response = requests.delete(dogapi_server + apiuri, data=parameters)
     fake_delete_response_code = 200
 
     #if delete_response.status_code == 200:
@@ -132,7 +132,7 @@ def update():
     
     apiuri = "/sd_update"
     
-    # update_response = requests.post(dogapi_server + apiuri, params=parameters)
+    # update_response = requests.put(dogapi_server + apiuri, data=parameters)
     fake_update_response_code = 200
     
     #if update_response.status_code == 200:

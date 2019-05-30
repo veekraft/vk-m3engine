@@ -96,6 +96,10 @@ def update():
     parameters = {'sd_regid':regid}
 
     try:
+        parameters['sd_picture'] = data['sd_picture']
+    except:
+        print "No Change to Dog picture"
+    try:
         parameters['sd_regstatus'] = data['sd_regstatus']
     except:
         print "No change to registration data"

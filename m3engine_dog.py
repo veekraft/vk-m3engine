@@ -62,10 +62,10 @@ def add():
     
     # add_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
     # Fake Response
-    fake_add_response_code = 201
+    fake_add_response_code = 200
     
-    #if add_response.status_code == 201:
-    if fake_add_response_code == 201:
+    #if add_response.status_code == 200:
+    if fake_add_response_code == 200:
         response = {'Result': 'Dog Add - SUCCESS'}
         code = 200
     else:
@@ -87,10 +87,10 @@ def delete():
 
     apiuri = "/sd_delete"
     # delete_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
-    fake_delete_response_code = 201
+    fake_delete_response_code = 200
 
-    #if delete_response.status_code == 201:
-    if fake_delete_response_code == 201:
+    #if delete_response.status_code == 200:
+    if fake_delete_response_code == 200:
         response = {'Result': 'Dog Retire - SUCCESS'}
         code = 200
     else:
@@ -160,10 +160,10 @@ def update():
     
     # update_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
     # Fake Response
-    fake_update_response_code = 201
+    fake_update_response_code = 200
     
-    #if update_response.status_code == 201:
-    if fake_update_response_code == 201:
+    #if update_response.status_code == 200:
+    if fake_update_response_code == 200:
         response = {'Result': 'Dog Update - SUCCESS'}
         code = 200
     else:

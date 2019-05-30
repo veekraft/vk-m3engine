@@ -10,7 +10,7 @@ import json
 UserID = "Blah"
 
 app = Flask(__name__)
-dogapi_server = "127.0.0.1"
+dogapi_server = "HTTPS://127.0.0.1:5000"
 
 @app.route('/api/v1/dog/view',methods=['GET'])
 def view():
@@ -23,11 +23,8 @@ def view():
     apiuri = "/sd_read"
     parameters = {"sd_regid": regid}
     
-    #view_response = requests.get("https://" + dogapi_server + apiuri, params=parameters)
-
-    # Fake Return Dog Data
+    #view_response = requests.get(dogapi_server + apiuri, params=parameters)
     view_response = {'sd_regid': '1234', 'sd_name': 'fido', 'sd_regstatus': 'Registered', 'sd_teamstatus':'Approved'}
-    # Fake Response
     fake_view_response_code = 200
 
     #if view_response.status_code == 200:
@@ -35,33 +32,19 @@ def view():
         response = view_response
         code = 200
     else:
-        response = {'Result: Error viewing Dog Entry'}
+        response = {'Result': 'Dog View: FAIL'}
         code = 400
 
     return jsonify(response), code
 
 @app.route('/api/v1/dog/add',methods=['POST'])
 def add():
-    #Request should be of the form:
-    # { sd_name: Dog Name
-    #   sd_regstatus : Registration Status
-    #   sd_expiredate : Expiry Date
-    #   sd_teamstatus : Team Status (Approved/Expired/Flagged)
-    #   sd_handlerid: Handler ID
-    #   sd_vaccstatus: Vaccination Status
-    #   sd_vaccepiredate: Vaccination Expiry Date
-    #   sd_pedigree: Breed
-    #   sd_trainername: Trainer Name
-    #   sd_trainerorg: Trainer Organisation
-    # } 
     parameters = request.form
-    
     apiuri = "/sd_create"
 
     #print parameters
     
-    # add_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
-    # Fake Response
+    # add_response = requests.post(dogapi_server + apiuri, data=parameters)
     fake_add_response_code = 200
     
     #if add_response.status_code == 200:
@@ -76,17 +59,18 @@ def add():
     
 @app.route('/api/v1/dog/delete',methods=['DELETE'])
 def delete():
-    #userid, regid needed to set inactive status
-    data = request.form
     global userid
     global regid
-
+    
+    data = request.form
+    
     userid = data['userid']
     regid = data['sd_regid']
     parameters = {'sd_regid':regid, 'sd_regstatus': 'False', 'sd_teamstatus': 'Expired'}
 
     apiuri = "/sd_delete"
-    # delete_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
+    
+    # delete_response = requests.delete(dogapi_server + apiuri, data=parameters)
     fake_delete_response_code = 200
 
     #if delete_response.status_code == 200:
@@ -101,26 +85,20 @@ def delete():
 
 @app.route('/api/v1/dog/update',methods=['PUT'])
 def update():
-    #Request items that can be updated:
-    #   sd_regstatus : Registration Status
-    #   sd_expiredate : Expiry Date
-    #   sd_teamstatus : Team Status (Approved/Expired/Flagged)
-    #   sd_handlerid: Handler ID
-    #   sd_vaccstatus: Vaccination Status
-    #   sd_vaccepiredate: Vaccination Expiry Date
-    #   sd_trainername: Trainer Name
-    #   sd_trainerorg: Trainer Organisation
-    data = request.form
-
     global userid
     global regid
+
+    data = request.form
 
     userid = data['userid']
     regid = data['sd_regid']
 
     parameters = {'sd_regid':regid}
 
-    # Allow update but also allow variable set to fail.
+    try:
+        parameters['sd_picture'] = data['sd_picture']
+    except:
+        print "No Change to Dog picture"
     try:
         parameters['sd_regstatus'] = data['sd_regstatus']
     except:
@@ -158,8 +136,7 @@ def update():
     
     apiuri = "/sd_update"
     
-    # update_response = requests.post("https://" + dogapi_server + apiuri, params=parameters)
-    # Fake Response
+    # update_response = requests.put(dogapi_server + apiuri, data=parameters)
     fake_update_response_code = 200
     
     #if update_response.status_code == 200:

@@ -1,10 +1,11 @@
 from flask import Flask, jsonify, request
 import os
 import requests
+import json
 
 app = Flask(__name__)
 
-docapi = "https://127.0.0.1" #This will change
+docapi = "http://127.0.0.1:5050" #This will change
 
 
 @app.route('/api/v1/document/add',methods=['POST'])
@@ -16,11 +17,11 @@ def add():
     #Data Transformation - TBA based on what UI sends us
 
     # Send data to document
-    uri = "/api/v1/document/add" #This might change depending on what the document guys do
+    uri = "/api/v1/add" #This might change depending on what the document guys do
     url = docapi + uri
 
-    #response = requests.post(uri, data=mydata)
-    #obj = json.loads(response.content)
+    response = requests.post(url, data=mydata)
+    obj = json.loads(response.content)
 
     code = 500
 
@@ -33,8 +34,8 @@ def add():
         response = "SUCCESS"
         code = 200
 
-    #return jsonify(response), code # use this once we have a target that will return
-    return jsonify(mydata), code
+    return jsonify(response), code # use this once we have a target that will return
+    #return jsonify(mydata), code
 
 
 @app.route('/api/v1/document/searchbyid',methods=['GET'])
@@ -183,6 +184,6 @@ def deletedocument():
     return jsonify(response), code
 
 
-
 if __name__ == "__main__":
-    app.run(debug=False,host='0.0.0.0', port=int(os.getenv('PORT', '5030')))
+      app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', '5030')), threaded=True)
+

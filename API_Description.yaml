@@ -1,0 +1,351 @@
+openapi: 3.0.0  
+
+servers:
+# Added by API Auto Mocking Plugin
+  - description: M3 Workflow Engine
+    url: https://m3egineurl
+info:
+  description: M3 Workflow Engine API
+  version: "1.0.0"
+  title: m3Engine API
+  contact:
+    email: m3engine@dell.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: DogView
+    description: View Specific Dog
+  - name: DogAdd
+    description: Add new Dog
+  - name: DogUpdate
+    description: Update one Dog with 1:many updatable fields
+  - name: DogDelete
+    description: Retire one Dog
+  - name: HandlerView
+    description: View Specific Handler
+  - name: HandlerAdd
+    description: Add new Handler
+  - name: HandlerUpdate
+    description: Update one Handler with 1:many updatable fields
+  - name: HandlerDelete
+    description: Delete one Handler
+  - name: DocumentAdd
+    description: Add a Document
+  - name: DocumentSearchbyID
+    description: Search for documents by handler ID
+    
+paths:
+  /api/v1/dog/view:
+    get:
+      tags:
+        - DogView
+      summary: Gets a specific Dog's Details
+      operationId: DogView
+      description: |
+        By passing in the appropriate options, you can get back information on a specific dog
+      parameters:
+        - in: query
+          name: userid
+          description: User ID of the user requesting the data
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: sd_regid
+          description: ID of the Dog
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful retrieval of data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: failure to retrieve dog information
+
+  /api/v1/dog/add:
+    post:
+      tags:
+        - DogAdd
+      summary: Adds a new handler to the database
+      operationId: DogAdd
+      description: |
+        By passing in the appropriate options, a new dog can be added to the database.
+      parameters:
+        - in: query
+          name: userid
+          description: User ID of the user requesting the data
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: data
+          description: Dictionary of Dog Fields, passed straight through.
+          required: true
+          schema:
+            type: array
+            items: 
+              type: string
+      responses:
+        '200':
+          description: successful addition of data
+        '400':
+          description: failure to add dog information
+
+  /api/v1/dog/update:
+    put:
+      tags:
+        - DogUpdate
+      summary: Update a dog in the database
+      operationId: DogUpdate
+      description: |
+        By passing in the appropriate options, a dog's attributes can be updated in the database.
+      parameters:
+        - in: query
+          name: userid
+          description: User ID of the user requesting the data
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: sd_regid
+          description:  ID of the Dog to be updated.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: data
+          description: Dictionary of Dog Fields, passed straight through.
+          required: true
+          schema:
+            type: array
+            items: 
+              type: string
+      responses:
+        '200':
+          description: successful update of dog.
+        '400':
+          description: failure to update dog information
+
+  /api/v1/dog/delete:
+    delete:
+      tags:
+        - DogDelete
+      summary: Delete a Dog
+      operationId: DogDelete
+      description: |
+        By passing in the appropriate options, a dog's registration status can be set to "False" and team status set to expired.
+      parameters:
+        - in: query
+          name: userid
+          description: User ID of the user requesting the data
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: sd_regid
+          description:  ID of the dog to be retired
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful retire of dog
+        '400':
+          description: failure to retire dog
+          
+  /api/v1/handler/view:
+    get:
+      tags:
+        - HandlerView
+      summary: Gets a specific Handler's Details
+      operationId: HandlerView
+      description: |
+        By passing in the appropriate options, you can get back information on a specific handler
+      parameters:
+        - in: query
+          name: userid
+          description: User ID of the user requesting the data
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: h_id
+          description: ID of the Handler
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful retrieval of data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: failure to retrieve handler information
+
+  /api/v1/handler/add:
+    post:
+      tags:
+        - HandlerAdd
+      summary: Adds a new handler to the database
+      operationId: HandlerAdd
+      description: |
+        By passing in the appropriate options, a new handler can be added to the database.
+      parameters:
+        - in: query
+          name: userid
+          description: User ID of the user requesting the data
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: data
+          description: Dictionary of Handler Fields, passed straight through.
+          required: true
+          schema:
+            type: array
+            items: 
+              type: string
+      responses:
+        '200':
+          description: successful addition of data
+        '400':
+          description: failure to add handler information
+
+  /api/v1/handler/update:
+    put:
+      tags:
+        - HandlerUpdate
+      summary: Update a handler to the database
+      operationId: HandlerUpdate
+      description: |
+        By passing in the appropriate options, a dog's attributes can be updated in the database.
+      parameters:
+        - in: query
+          name: userid
+          description: User ID of the user requesting the data
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: h_id
+          description:  ID of the handler to be updated.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: data
+          description: Dictionary of Handler Fields, passed straight through.
+          required: true
+          schema:
+            type: array
+            items: 
+              type: string
+      responses:
+        '200':
+          description: successful update of handler.
+        '400':
+          description: failure to update handler information
+
+  /api/v1/handler/delete:
+    delete:
+      tags:
+        - HandlerDelete
+      summary: Delete a Handler
+      operationId: HandlerDelete
+      description: |
+        By passing in the appropriate options, a handler can be deleted from the database.
+      parameters:
+        - in: query
+          name: userid
+          description: User ID of the user requesting the data
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: h_id
+          description:  ID of the handler to be deleted.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful deletion of handler
+        '400':
+          description: failure to delete handler
+          
+  /api/v1/document/add:
+    post:
+      tags:
+        - DocumentAdd
+      summary: Adds a new document to the database
+      operationId: DocumentAdd
+      description: |
+        By passing in the appropriate options, a new document can be added to the database.
+      parameters:
+        - in: query
+          name: userid
+          description: User ID of the user requesting the data
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: h_id
+          description:  ID of the handler
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: data
+          description: TBD
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: successful addition of document
+        '401':
+          description: failure to add document
+
+  /api/v1/document/searchbyid:
+    get:
+      tags:
+        - DocumentSearchbyID
+      summary: Search by handler id
+      operationId: DocumentSearchbyID
+      description: |
+        By passing in the appropriate options, a handler ID can be searched for documents that are related.
+      parameters:
+        - in: query
+          name: userid
+          description: User ID of the user requesting the data
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: h_id
+          description:  ID of the handler
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful addition of document
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: failure to add document

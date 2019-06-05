@@ -28,7 +28,7 @@ def root():
     response = "vk-m3engine is up and running"
     return jsonify(response),200
 
-## Test webserver status
+## Test handlers microservices status
 @app.route('/api/v1/handler/status',methods=["GET"])
 def status():
     apiuri = "/status"

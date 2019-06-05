@@ -21,6 +21,13 @@ hapi_base = hapi_server + "/api/v1"
 
 print(hapi_base)
 
+## Test self
+@app.route('/',methods=["GET"])
+def root():
+    print("I'm up and running")
+    response = "vk-m3engine is up and running"
+    return jsonify(response),200
+
 ## Test webserver status
 @app.route('/api/v1/handler/status',methods=["GET"])
 def status():

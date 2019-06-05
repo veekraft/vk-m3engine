@@ -17,9 +17,8 @@ if 'VCAP_SERVICES' in os.environ:
 else: 
     hapi_server = "http://127.0.0.1:5000"
 
+print(hapi_server)
 hapi_base = hapi_server + "/api/v1"
-
-print(hapi_base)
 
 ## Test self
 @app.route('/',methods=["GET"])

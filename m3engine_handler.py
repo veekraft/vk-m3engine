@@ -11,8 +11,12 @@ import requests
 UserID = "Blah"
 
 app = Flask(__name__)
-hapi_server = "http://127.0.0.1:5000"
-##handlerapi_server = "http://handlers.cfapps.io"
+
+if 'VCAP_SERVICES' in os.environ:
+    hapi_server = "http://handlers.cfapps.io"
+else: 
+    hapi_server = "http://127.0.0.1:5000"
+
 hapi_base = hapi_server + "/api/v1"
 
 print(hapi_base)

@@ -10,7 +10,8 @@ import json
 UserID = "Blah"
 
 app = Flask(__name__)
-handlerapi_server = "HTTPS://127.0.0.1:5000"
+#handlerapi_server = "HTTPS://127.0.0.1:5000"
+handlerapi_server = "http://handlers.cfapps.io"
 
 @app.route('/api/v1/handler/view',methods=['GET'])
 def view():
@@ -19,15 +20,15 @@ def view():
     userid = data ['userid']
     h_id = data ['h_id']
     
-    apiuri = "/h_read"
+    apiuri = "/api/v1/read"
     parameters = {"h_id": h_id}
 
-    #view_response = requests.get(handlerapi_server + apiuri, params=parameters)
-    view_response = {'h_id': '1234', 'h_name': 'Joe Bloggs', 'h_servicedogid': '1234', 'h_trainerorg':'org'}
-    fake_view_response_code = 200
+    view_response = requests.get(handlerapi_server + apiuri, params=parameters)
+##    view_response = {'h_id': '1234', 'h_name': 'Joe Bloggs', 'h_servicedogid': '1234', 'h_trainerorg':'org'}
+##    fake_view_response_code = 200
 
-    #if view_response.status_code == 200:
-    if fake_view_response_code == 200:
+    if view_response.status_code == 200:
+##    if fake_view_response_code == 200:
         response = view_response
         code = 200
     else:
@@ -143,4 +144,4 @@ def searchbyzip():
 
 #Ucomment for unit testing
 if __name__ == "__main__":
-    app.run(debug=False,host='0.0.0.0', port=int(os.getenv('PORT', '5020')))
+    app.run(debug=False,host='0.0.0.0', port=int(os.getenv('PORT', '5000')), threaded=True)

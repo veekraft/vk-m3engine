@@ -111,10 +111,8 @@ def update():
     apiuri = "/api/v1/update"
     
     update_response = requests.put(handlerapi_server + apiuri, json=parameters)
-##    fake_update_response_code = 200
     
     if update_response.status_code:
-##    if fake_update_response_code == 200:
         response = {'Result': 'Handler Update - SUCCESS'}
         code = 200
     else:
@@ -123,6 +121,31 @@ def update():
         
     return jsonify (response), code 
 
+@app.route('/api/v1/handler/delete',methods=['DELETE'])
+def delete():
+    global userid
+    global h_id
+    
+    data = request.form
+    
+    userid = data['userid']
+    h_id = data['h_id']
+    parameters = {'h_id':h_id}
+
+    apiuri = "/api/v1/delete"
+    
+    delete_response = requests.delete(handlerapi_server + apiuri, params=parameters)
+##    fake_delete_response_code = 200
+
+    if delete_response:
+##    if fake_delete_response_code == 200:
+        response = {'Result': 'Handler Delete - SUCCESS'}
+        code = 200
+    else:
+        response = {'Result': 'Handler Delete - FAIL'}
+        code = 400
+        
+    return jsonify (response), code 
 
 #Ucomment for unit testing
 if __name__ == "__main__":

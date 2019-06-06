@@ -12,20 +12,21 @@ UserID = "Blah"
 
 app = Flask(__name__)
 
+## Test for runtine location
 if 'VCAP_SERVICES' in os.environ:
-    hapi_server = "http://handlers.cfapps.io"
+    handlerapi_server = "http://handlers.cfapps.io"
 else: 
-    hapi_server = "http://127.0.0.1:5000"
-
-print(hapi_server)
-hapi_base = hapi_server + "/api/v1"
+    handlerapi_server = "http://127.0.0.1:5000"
+print("handlerapi_server: %s" % handlerapi_server)
+##
 
 ## Test self
 @app.route('/',methods=["GET"])
 def root():
     print("I'm up and running")
-    response = "vk-m3engine is up and running"
+    response = "m3engine is up and running"
     return jsonify(response),200
+##
 
 ## Test handlers microservices status
 @app.route('/api/v1/handler/status',methods=["GET"])
@@ -44,14 +45,14 @@ def status():
 ## Call handler read API
 @app.route('/api/v1/handler/view',methods=["GET"])
 def view():
-    apiuri = "/read"
+    apiuri = "/api/v1/read"
     data = request.args
     
     userid = data['userid']
     h_id = data['h_id']
-    payload = {'h_id': h_id}
+    parameters = {'h_id': h_id}
 
-    handler_response = requests.get(hapi_base+apiuri, params=payload)
+    handler_response = requests.get(handlerapi_server + apiuri, params=parameters)
     
     if handler_response:
         handler_content = json.loads(handler_response.content)
@@ -62,6 +63,24 @@ def view():
         code = 400
     
     return jsonify(response), code
+
+@app.route('/api/v1/handler/add',methods=['POST'])
+def add():
+    apiuri = "/api/v1/create"
+
+    parameter = request.form
+##    parameter.to_dict()
+
+    add_response = requests.post(handlerapi_server + apiuri, json=parameter)
+    
+    if add_response:
+        response = {'Result': 'Handler Add - SUCCESS'}
+        code = 200
+    else:
+        response = {'Result': 'Handler Add - FAIL'}
+        code = 400
+        
+    return jsonify (response), code
 
 #Ucomment for unit testing
 if __name__ == "__main__":

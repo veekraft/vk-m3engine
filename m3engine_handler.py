@@ -21,15 +21,15 @@ else:
 print("handlerapi_server: %s" % handlerapi_server)
 
 ## Test self
-@app.route('/api/v1/mystatus', methods=["GET"])
-def mystatus():
+@app.route('/api/v1/handler/m3estatus', methods=["GET"])
+def m3estatus():
     print("I'm up and running")
     response = {'status': "m3engine API up and running"}
     statuscode = 200
     return jsonify(response),statuscode
 
 ## Test handlers microservices status
-@app.route('/api/v1/handler/status',methods=["GET"])
+@app.route('/api/v1/handler/hstatus',methods=["GET"])
 def status():
     apiuri = "/api/v1/mystatus"
 

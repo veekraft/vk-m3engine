@@ -17,21 +17,23 @@ if 'VCAP_SERVICES' in os.environ:
     handlerapi_server = "http://handlers.cfapps.io"
 else: 
     handlerapi_server = "http://127.0.0.1:5000"
+
 print("handlerapi_server: %s" % handlerapi_server)
 
 ## Test self
-@app.route('/',methods=["GET"])
-def root():
+@app.route('/api/v1/mystatus', methods=["GET"])
+def mystatus():
     print("I'm up and running")
-    response = "m3engine is up and running"
-    return jsonify(response),200
+    response = {'status': "m3engine API up and running"}
+    statuscode = 200
+    return jsonify(response),statuscode
 
 ## Test handlers microservices status
 @app.route('/api/v1/handler/status',methods=["GET"])
 def status():
-    apiuri = "/api/v1/status"
+    apiuri = "/api/v1/mystatus"
 
-    handler_status = requests.get(hapi_base+apiuri)
+    handler_status = requests.get(handlerapi_server+apiuri)
     if handler_status:
         response = {'status': "Handlers API returns my ping"}
         code = 200
@@ -149,4 +151,4 @@ def delete():
 
 #Ucomment for unit testing
 if __name__ == "__main__":
-    app.run(debug=False,host='0.0.0.0', port=int(os.getenv('PORT', '5050')), threaded=True)
+    app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', '5020')), threaded=True)

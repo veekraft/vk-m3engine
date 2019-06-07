@@ -83,6 +83,32 @@ def add():
         
     return jsonify (response), code
 
+@app.route('/api/v1/handler/delete',methods=['DELETE'])
+def delete():
+    global userid
+    global h_id
+    
+    data = request.form
+    
+    userid = data['userid']
+    h_id = data['h_id']
+    parameters = {'h_id':h_id}
+
+    apiuri = "/api/v1/delete"
+    
+    delete_response = requests.delete(handlerapi_server + apiuri, params=parameters)
+##    fake_delete_response_code = 200
+
+    if delete_response:
+##    if fake_delete_response_code == 200:
+        response = {'Result': 'Handler Delete - SUCCESS'}
+        code = 200
+    else:
+        response = {'Result': 'Handler Delete - FAIL'}
+        code = 400
+        
+    return jsonify (response), code
+
 ## Call handler update API
 @app.route('/api/v1/handler/update',methods=['PUT'])
 def update():
@@ -123,31 +149,24 @@ def update():
         
     return jsonify (response), code 
 
-@app.route('/api/v1/handler/delete',methods=['DELETE'])
-def delete():
-    global userid
-    global h_id
-    
-    data = request.form
-    
-    userid = data['userid']
-    h_id = data['h_id']
-    parameters = {'h_id':h_id}
-
-    apiuri = "/api/v1/delete"
-    
-    delete_response = requests.delete(handlerapi_server + apiuri, params=parameters)
-##    fake_delete_response_code = 200
-
-    if delete_response:
-##    if fake_delete_response_code == 200:
-        response = {'Result': 'Handler Delete - SUCCESS'}
-        code = 200
-    else:
-        response = {'Result': 'Handler Delete - FAIL'}
-        code = 400
-        
-    return jsonify (response), code 
+##
+##@app.route('/api/v1/handler/searchhandlerid',methods=['GET'])
+##def searchhandlerid():
+##    response = {'Result': 'Not Implemented'}
+##    code = 200
+##    return jsonify (response), code
+##
+##@app.route('/api/v1/handler/searchbyname',methods=['GET'])
+##def searchbyname():
+##    response = {'Result': 'Not Implemented'}
+##    code = 200
+##    return jsonify (response), code
+##
+##@app.route('/api/v1/handler/searchbyzip',methods=['GET'])
+##def searchbyzip():
+##    response = {'Result': 'Not Implemented'}
+##    code = 200
+##    return jsonify (response), code
 
 #Ucomment for unit testing
 if __name__ == "__main__":
